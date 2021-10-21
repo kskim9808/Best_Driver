@@ -4,15 +4,19 @@
 #include "PlayerVehicle.h"
 #include <Camera/CameraComponent.h>
 #include "PlayerMove.h"
+#include <Components/SceneComponent.h>
 
 
 APlayerVehicle::APlayerVehicle()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	cameraRoot = CreateDefaultSubobject<USceneComponent>(TEXT("CameraRoot"));
+	cameraRoot->SetupAttachment(GetMesh());
+	cameraRoot->SetRelativeLocation(FVector(5.f, -35.f, 105.f));
+
 	playerCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("PlayerCamera"));
-	playerCamera->SetupAttachment(GetMesh());
-	playerCamera->SetRelativeLocation(FVector(-10.f, -35.f, 105.f));
+	playerCamera->SetupAttachment(cameraRoot);
 
 	playerMove = CreateDefaultSubobject<UPlayerMove>(TEXT("PlayerMove"));
 
