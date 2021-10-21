@@ -3,30 +3,35 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
-#include "PlayerPawn.generated.h"
+#include "WheeledVehicle.h"
+#include "PlayerVehicle.generated.h"
 
+/**
+ * 
+ */
 UCLASS()
-class P_API APlayerPawn : public APawn
+class P_API APlayerVehicle : public AWheeledVehicle
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
-	APlayerPawn();
+	APlayerVehicle();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+public:
 
-public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere, category = PlayerSettings)
+public: 
+	UPROPERTY(VisibleAnywhere, Category=Setting)
+	class UCameraComponent* playerCamera;
+
+	UPROPERTY(EditAnywhere, category=Setting)
 	class UPlayerMove* playerMove;
+
 
 };

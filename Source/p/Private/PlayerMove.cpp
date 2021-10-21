@@ -2,8 +2,9 @@
 
 
 #include "PlayerMove.h"
-#include "PlayerPawn.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
+#include "PlayerVehicle.h"
+#include <WheeledVehicleMovementComponent.h>
 
 // Sets default values for this component's properties
 UPlayerMove::UPlayerMove()
@@ -21,7 +22,7 @@ void UPlayerMove::BeginPlay()
 {
 	Super::BeginPlay();
 
-	player= Cast<APlayerPawn>(GetOwner());
+	player= Cast<APlayerVehicle>(GetOwner());
 
 	// 헤드 마운트 디스플레이 장치의 초기 위치값을 설정하기
 	UHeadMountedDisplayFunctionLibrary::GetOrientationAndPosition(hmdRotate, hmdLocation);
@@ -45,37 +46,57 @@ void UPlayerMove::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 
 void UPlayerMove::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	PlayerInputComponent->BindAxis("MoveRight", this, &UPlayerMove::MoveHorizontal);
-	PlayerInputComponent->BindAxis("MoveForward", this, &UPlayerMove::MoveVertical);
+	PlayerInputComponent->BindAxis("MoveForward", this, &UPlayerMove::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &UPlayerMove::MoveRight);
 
 	PlayerInputComponent->BindAction("HMDReset", IE_Pressed, this, &UPlayerMove::ResetHMD);
+	PlayerInputComponent->BindAction("Handbrake", IE_Pressed, this, &UPlayerMove::BrakePressed);
+	PlayerInputComponent->BindAction("Handbrake", IE_Released, this, &UPlayerMove::BrakeReleased);
 
 }
 
-void UPlayerMove::MoveHorizontal(float value)
+void UPlayerMove::MoveForward(float value)
 {
 	if (player == nullptr)
 	{
 		return;
 	}
 
-	FVector dir = player->GetActorRightVector() * value;
-	player->SetActorLocation(player->GetActorLocation() + dir * moveSpeed * GetWorld()->DeltaTimeSeconds);
+	player->GetVehicleMovement()->SetThrottleInput(value);
 }
 
-void UPlayerMove::MoveVertical(float value)
+void UPlayerMove::MoveRight(float value)
 {
 	if (player == nullptr)
 	{
 		return;
 	}
 
-	FVector dir = player->GetActorForwardVector() * value;
-	player->SetActorLocation(player->GetActorLocation() + dir * moveSpeed * GetWorld()->DeltaTimeSeconds);
+	player->GetVehicleMovement()->SetSteeringInput(value);
+}
+
+void UPlayerMove::BrakePressed()
+{
+	if (player == nullptr)
+	{
+		return;
+	}
+
+	player->GetVehicleMovement()->SetHandbrakeInput(true);
+}
+
+void UPlayerMove::BrakeReleased()
+{
+	if (player == nullptr)
+	{
+		return;
+	}
+	player->GetVehicleMovement()->SetHandbrakeInput(false);
 }
 
 void UPlayerMove::ResetHMD()
 {
+	
 	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 }
 

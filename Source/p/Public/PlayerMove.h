@@ -26,10 +26,12 @@ public:
 
 	void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent);
 
-	void MoveHorizontal(float value);
-	void MoveVertical(float value);
+	void MoveForward(float value);
+	void MoveRight(float value);
+	void BrakePressed();
+	void BrakeReleased();
 	
-	class APlayerPawn* player;
+	class APlayerVehicle* player;
 
 	UPROPERTY(EditAnywhere, Category = MoveSettings)
 	float moveSpeed = 500;
