@@ -13,10 +13,10 @@ APlayerVehicle::APlayerVehicle()
 
 	cameraRoot = CreateDefaultSubobject<USceneComponent>(TEXT("CameraRoot"));
 	cameraRoot->SetupAttachment(GetMesh());
+	cameraRoot->SetRelativeLocation(FVector(5.f, -35.f, 105.f));
 
 	playerCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("PlayerCamera"));
 	playerCamera->SetupAttachment(cameraRoot);
-	//playerCamera->SetRelativeLocation(FVector(-10.f, -35.f, 105.f));
 
 	playerMove = CreateDefaultSubobject<UPlayerMove>(TEXT("PlayerMove"));
 
