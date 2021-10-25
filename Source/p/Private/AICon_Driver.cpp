@@ -58,21 +58,37 @@ void AAICon_Driver::Drive()
 
 float AAICon_Driver::Steering()
 {
-	return 0;
+
+	Loc = UKismetMathLibrary::Abs(UKismetMathLibrary::FindLookAtRotation(controlledCar->GetActorLocation(), splinePosition).Yaw - controlledCar->GetActorRotation().Yaw);
+	
+	controlledCar->GetVehicleMovement()->SetSteeringInput((UKismetMathLibrary::MapRangeClamped(Loc, -25, 25, -1, 1) * (-1)));
+
+	auto value = (UKismetMathLibrary::MapRangeClamped(Loc, 0, 25, -1, 0) * (-1));
+	length = UKismetMathLibrary::Abs((UKismetMathLibrary::MapRangeClamped(Loc, -25, 25, -1, 1)* (-1)));
+	if (length < 0.5f)
+	{
+		return value;
+	}
+	else
+	{
+		bool isLoc = Loc > 180.f;
+		return UKismetMathLibrary::SelectFloat(-1, 0.25, isLoc);
+	}
 }
 
 void AAICon_Driver::SplineDrive()
 {
+	length = Steering();
 	splinePosition = GetSplinePosition();
-	auto dis = (controlledCar->GetActorLocation() - splinePosition).Size();
-	currentThrottleInput = UKismetMathLibrary::MapRangeClamped(dis, 250.f, 500.f, 0.f, 1.f);
+	float dis = (controlledCar->GetActorLocation() - splinePosition).Size();
+	currentThrottleInput = UKismetMathLibrary::MapRangeClamped(dis, 250.f, 500.f, 0.f, 1.f) * Steering() * 1.5f;
 	controlledCar->GetVehicleMovement()->SetThrottleInput(currentThrottleInput);
 }
 
 float AAICon_Driver::GetDistanceAlongSpline()
 {
 	bool pickA = (controlledCar->GetActorLocation() - currentPath->spline->GetLocationAtDistanceAlongSpline(distanceAlongCurrentSpline, ESplineCoordinateSpace::Local)).Size() >= distanceToPushLength;
-	length = controlledCar->GetVelocity().Size();
+
 	distanceAlongCurrentSpline = UKismetMathLibrary::SelectFloat(UKismetMathLibrary::FInterpTo_Constant(distanceAlongCurrentSpline, currentSplineLength, GetWorld()->DeltaTimeSeconds, controlledCar->GetVelocity().Size()), distanceAlongCurrentSpline, pickA);
 
 

@@ -25,7 +25,7 @@ private:
 	UPROPERTY(VisibleAnywhere)
 		bool bGateOpen;
 };
-FORCEINLINE FGate::FGate() : bGateOpen(false)
+FORCEINLINE FGate::FGate() : bGateOpen(true)
 {}
 FORCEINLINE FGate::FGate(const bool bStartClosed) : bGateOpen(!bStartClosed)
 {}
@@ -52,7 +52,8 @@ public:
 	float Steering();
 	
 	void SplineDrive();
-	
+
+	UFUNCTION(BlueprintPure)
 	float GetDistanceAlongSpline();
 
 	void SetUpSpline(class ARoadSpline* currentPathReference);
