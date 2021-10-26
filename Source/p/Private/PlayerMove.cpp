@@ -62,7 +62,7 @@ void UPlayerMove::MoveForward(float value)
 		return;
 	}
 
-	player->GetVehicleMovement()->SetThrottleInput(value);
+	player->GetVehicleMovement()->SetThrottleInput(value * moveSpeed);
 }
 
 void UPlayerMove::MoveRight(float value)
@@ -72,7 +72,7 @@ void UPlayerMove::MoveRight(float value)
 		return;
 	}
 
-	player->GetVehicleMovement()->SetSteeringInput(value);
+	player->GetVehicleMovement()->SetSteeringInput(value * moveSpeed);
 }
 
 void UPlayerMove::BrakePressed()

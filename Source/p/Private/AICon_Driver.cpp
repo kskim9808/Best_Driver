@@ -61,7 +61,7 @@ float AAICon_Driver::Steering()
 
 	Loc = UKismetMathLibrary::Abs(UKismetMathLibrary::FindLookAtRotation(controlledCar->GetActorLocation(), splinePosition).Yaw - controlledCar->GetActorRotation().Yaw);
 	
-	controlledCar->GetVehicleMovement()->SetSteeringInput((UKismetMathLibrary::MapRangeClamped(Loc, -25, 25, -1, 1) * (-1)));
+	controlledCar->GetVehicleMovement()->SetSteeringInput((UKismetMathLibrary::MapRangeClamped(UKismetMathLibrary::FindLookAtRotation(controlledCar->GetActorLocation(), splinePosition).Yaw - controlledCar->GetActorRotation().Yaw, -25, 25, -1, 1)));
 
 	auto value = (UKismetMathLibrary::MapRangeClamped(Loc, 0, 25, -1, 0) * (-1));
 	length = UKismetMathLibrary::Abs((UKismetMathLibrary::MapRangeClamped(Loc, -25, 25, -1, 1)* (-1)));
@@ -71,7 +71,7 @@ float AAICon_Driver::Steering()
 	}
 	else
 	{
-		bool isLoc = Loc > 180.f;
+		bool isLoc = Loc > 170.f;
 		return UKismetMathLibrary::SelectFloat(-1, 0.25, isLoc);
 	}
 }

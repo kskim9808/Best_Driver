@@ -34,7 +34,7 @@ public:
 	class APlayerVehicle* player;
 
 	UPROPERTY(EditAnywhere, Category = MoveSettings)
-	float moveSpeed = 500;
+	float moveSpeed = 0.8f;
 
 	void ResetHMD();
 

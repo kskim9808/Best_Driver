@@ -11,6 +11,7 @@ APlayerVehicle::APlayerVehicle()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	GetMesh()->SetCollisionProfileName(TEXT("Player"));
 	cameraRoot = CreateDefaultSubobject<USceneComponent>(TEXT("CameraRoot"));
 	cameraRoot->SetupAttachment(GetMesh());
 	cameraRoot->SetRelativeLocation(FVector(5.f, -35.f, 105.f));
