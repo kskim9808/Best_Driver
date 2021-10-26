@@ -42,6 +42,8 @@ public:
 	TArray<class ARoadSpline*> arrPath;
 	UPROPERTY(EditAnywhere, Category = Setting)
 	float speed = 0.6f;
+	UPROPERTY(EditAnywhere, Category = Setting)
+	int pathNum = 0;
 
 	bool stand = false;
 };
