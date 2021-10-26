@@ -47,6 +47,10 @@ void AOtherWheeledVehicle::Tick(float DeltaSeconds)
 
 float AOtherWheeledVehicle::GetPath()
 {
+	if (pathNum >= arrPath.Num())
+	{
+		return 0;
+	}
 	FVector loc = arrPath[pathNum]->spline->FindTangentClosestToWorldLocation(GetActorLocation(), ESplineCoordinateSpace::World);
 	loc.Normalize();
 	FVector mulLoc = loc * 500.f;
