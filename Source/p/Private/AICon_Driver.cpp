@@ -9,6 +9,8 @@
 #include <Kismet/KismetMathLibrary.h>
 #include <WheeledVehicleMovementComponent.h>
 #include "CarVehicle.h"
+#include <DrawDebugHelpers.h>
+#include <Kismet/KismetSystemLibrary.h>
 
 
 AAICon_Driver::AAICon_Driver()
@@ -21,7 +23,7 @@ void AAICon_Driver::BeginPlay()
 	Super::BeginPlay();
 
 	GetPawn();
-	if(controlledCar->currentPath)
+	if(IsValid(controlledCar->currentPath))
 	{
 		SetUpSpline(controlledCar->currentPath);
 	}
@@ -30,12 +32,17 @@ void AAICon_Driver::BeginPlay()
 void AAICon_Driver::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (Gate.IsOpen())
+	{
+		Drive();
+	}
 }
 
 void AAICon_Driver::GetPawn()
 {
 	controlledCar = Cast<ACarVehicle>(AController::GetPawn());
-	if (controlledCar)
+	if (IsValid(controlledCar))
 	{
 		StartDriving();
 	}
@@ -43,50 +50,76 @@ void AAICon_Driver::GetPawn()
 
 void AAICon_Driver::Drive()
 {
-	if (currentPath)
+	if (IsValid(currentPath))
 	{
 		SplineDrive();
 	}
 }
 
-void AAICon_Driver::Steering()
+float AAICon_Driver::Steering()
 {
 
+	Loc = UKismetMathLibrary::Abs(UKismetMathLibrary::FindLookAtRotation(controlledCar->GetActorLocation(), splinePosition).Yaw - controlledCar->GetActorRotation().Yaw);
+	
+	controlledCar->GetVehicleMovement()->SetSteeringInput((UKismetMathLibrary::MapRangeClamped(Loc, -25, 25, -1, 1) * (-1)));
+
+	auto value = (UKismetMathLibrary::MapRangeClamped(Loc, 0, 25, -1, 0) * (-1));
+	length = UKismetMathLibrary::Abs((UKismetMathLibrary::MapRangeClamped(Loc, -25, 25, -1, 1)* (-1)));
+	if (length < 0.5f)
+	{
+		return value;
+	}
+	else
+	{
+		bool isLoc = Loc > 180.f;
+		return UKismetMathLibrary::SelectFloat(-1, 0.25, isLoc);
+	}
 }
 
 void AAICon_Driver::SplineDrive()
 {
-	auto dis = FVector::Dist(controlledCar->GetActorLocation(), GetSplinePosition());
-
-	controlledCar->GetVehicleMovement()->SetThrottleInput(UKismetMathLibrary::MapRangeClamped(dis, 250.f, 500.f, 0.f, 1.f));
-
+	length = Steering();
+	splinePosition = GetSplinePosition();
+	float dis = (controlledCar->GetActorLocation() - splinePosition).Size();
+	currentThrottleInput = UKismetMathLibrary::MapRangeClamped(dis, 250.f, 500.f, 0.f, 1.f) * Steering() * 1.5f;
+	controlledCar->GetVehicleMovement()->SetThrottleInput(currentThrottleInput);
 }
 
 float AAICon_Driver::GetDistanceAlongSpline()
 {
-	bool pickA = FVector::Dist(controlledCar->GetActorLocation(), currentPath->spline->GetLocationAtDistanceAlongSpline(distanceAlongCurrentSpline, ESplineCoordinateSpace::Local)) >= distanceToPushLength;
-	
-	distanceAlongCurrentSpline = UKismetMathLibrary::SelectFloat(FMath::FInterpTo(distanceAlongCurrentSpline, setCurrentSplineLength, GetWorld()->DeltaTimeSeconds, splinePushSpeed), distanceAlongCurrentSpline, pickA);
+	bool pickA = (controlledCar->GetActorLocation() - currentPath->spline->GetLocationAtDistanceAlongSpline(distanceAlongCurrentSpline, ESplineCoordinateSpace::Local)).Size() >= distanceToPushLength;
 
-	Loc = distanceAlongCurrentSpline;
+	distanceAlongCurrentSpline = UKismetMathLibrary::SelectFloat(UKismetMathLibrary::FInterpTo_Constant(distanceAlongCurrentSpline, currentSplineLength, GetWorld()->DeltaTimeSeconds, controlledCar->GetVelocity().Size()), distanceAlongCurrentSpline, pickA);
+
+
 	return distanceAlongCurrentSpline;
 }
 
 void AAICon_Driver::SetUpSpline(class ARoadSpline* currentPathReference)
 {
-	if (currentPathReference != nullptr)
+	if (IsValid(currentPathReference))
 	{
 		currentPath = currentPathReference;
-		setCurrentSplineLength = currentPath->spline->GetSplineLength();
-		UE_LOG(LogTemp, Warning, TEXT("Good5"));
-
+		currentSplineLength = currentPath->spline->GetSplineLength();
+	}
+	else
+	{
+		if (IsValid(currentPath))
+		{
+			currentSplineLength = currentPath->spline->GetSplineLength(); 
+		}
 	}
 }
 
 FVector AAICon_Driver::GetSplinePosition()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Good6"));
+	endLoc = currentPath->spline->GetLocationAtDistanceAlongSpline(GetDistanceAlongSpline(), ESplineCoordinateSpace::World);
+	UKismetSystemLibrary::DrawDebugLine(GetWorld(), controlledCar->GetActorLocation(), endLoc, FColor::Red, 0.f, 25.f);
+	return endLoc;
+}
 
-	return currentPath->spline->GetLocationAtDistanceAlongSpline(GetDistanceAlongSpline(), ESplineCoordinateSpace::World);
+void AAICon_Driver::StartDriving()
+{
+	Gate.Open();
 }
 
