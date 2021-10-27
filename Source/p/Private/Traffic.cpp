@@ -93,6 +93,10 @@ void ATraffic::TrafficRedOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	{
 		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.01f);
 		player->widgetComp->SetVisibility(true);
+		if (widgetFactory)
+		{
+			player->widgetComp->SetWidgetClass(widgetFactory);
+		}
 		playerCnt--;
 		
 		FTimerHandle moveTIme;

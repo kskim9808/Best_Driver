@@ -43,6 +43,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = LightSetting)
 	class URectLightComponent* greenRight;
 
+	UPROPERTY(EditAnywhere, Category=Setting)
+	TSubclassOf<UUserWidget> widgetFactory;
+
 	UPROPERTY()
 	int playerCnt = 1;
 };

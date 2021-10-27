@@ -33,6 +33,8 @@ public:
 	class UCameraComponent* playerCamera;
 	UPROPERTY(VisibleAnywhere, Category=Setting)
 	class UWidgetComponent* widgetComp;
+	UPROPERTY(EditAnywhere, Category = Setting)
+	TSubclassOf<UUserWidget> widgetFactory;
 
 	UPROPERTY(EditAnywhere, category=Setting)
 	class UPlayerMove* playerMove;
