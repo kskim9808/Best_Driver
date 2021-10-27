@@ -40,6 +40,7 @@ void AOtherWheeledVehicle::BeginPlay()
 		}
 	}*/
 	Spawn();
+	Move();
 }
 
 void AOtherWheeledVehicle::Tick(float DeltaSeconds)
