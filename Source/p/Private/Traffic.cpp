@@ -89,7 +89,7 @@ void ATraffic::TrafficRedOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		aiCar->Stop();
 	}
 
-	if (player && playerCnt == 1 && yellowRight->IsVisible() == true)
+	/*if (player && playerCnt == 1 && yellowRight->IsVisible() == true)
 	{
 		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.01f);
 		player->widgetComp->SetVisibility(true);
@@ -101,7 +101,7 @@ void ATraffic::TrafficRedOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 		
 		FTimerHandle moveTIme;
 		GetWorld()->GetTimerManager().SetTimer(moveTIme, this, &ATraffic::Move, 0.1f, false);
-	}
+	}*/
 }
 
 void ATraffic::TrafficRedEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
