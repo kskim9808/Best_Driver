@@ -83,7 +83,7 @@ void AOtherWheeledVehicle::Spawn()
 	{
 		return;
 	}
-	carNum = UKismetMathLibrary::RandomInteger(4);
+	carNum = UKismetMathLibrary::RandomIntegerInRange(0, 3);
 	GetMesh()->SetSkeletalMesh(cars[carNum], true);
 	GetMesh()->SetAnimInstanceClass(carAnimation[carNum]);
 	Move();
