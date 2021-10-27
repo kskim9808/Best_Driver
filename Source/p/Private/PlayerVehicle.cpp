@@ -5,6 +5,7 @@
 #include <Camera/CameraComponent.h>
 #include "PlayerMove.h"
 #include <Components/SceneComponent.h>
+#include <Components/WidgetComponent.h>
 
 
 APlayerVehicle::APlayerVehicle()
@@ -19,6 +20,9 @@ APlayerVehicle::APlayerVehicle()
 	playerCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("PlayerCamera"));
 	playerCamera->SetupAttachment(cameraRoot);
 
+	widgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("WidgetComponent"));
+	widgetComp->SetupAttachment(cameraRoot);
+
 	playerMove = CreateDefaultSubobject<UPlayerMove>(TEXT("PlayerMove"));
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
@@ -27,6 +31,8 @@ APlayerVehicle::APlayerVehicle()
 void APlayerVehicle::BeginPlay()
 {
 	Super::BeginPlay();
+
+	widgetComp->SetVisibility(false);
 }
 
 void APlayerVehicle::Tick(float DeltaTime)

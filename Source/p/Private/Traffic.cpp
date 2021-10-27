@@ -8,6 +8,10 @@
 #include <Kismet/KismetSystemLibrary.h>
 #include <WheeledVehicleMovementComponent.h>
 #include <Components/RectLightComponent.h>
+#include "PlayerVehicle.h"
+#include <Components/WidgetComponent.h>
+#include <Kismet/GameplayStatics.h>
+
 
 
 // Sets default values
@@ -79,9 +83,20 @@ void ATraffic::Tick(float DeltaTime)
 void ATraffic::TrafficRedOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	auto aiCar = Cast<AOtherWheeledVehicle>(OtherActor);
+	auto player = Cast<APlayerVehicle>(OtherActor);
 	if (aiCar)
 	{
 		aiCar->Stop();
+	}
+
+	if (player && playerCnt == 1 && yellowRight->IsVisible() == true)
+	{
+		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.01f);
+		player->widgetComp->SetVisibility(true);
+		playerCnt--;
+		
+		FTimerHandle moveTIme;
+		GetWorld()->GetTimerManager().SetTimer(moveTIme, this, &ATraffic::Move, 0.1f, false);
 	}
 }
 
@@ -92,5 +107,10 @@ void ATraffic::TrafficRedEndOverlap(UPrimitiveComponent* OverlappedComponent, AA
 	{
 		aiCar->Move();
 	}
+}
+
+void ATraffic::Move()
+{
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.f);
 }
 

@@ -31,9 +31,10 @@ public:
 	class USceneComponent* cameraRoot;
 	UPROPERTY(VisibleAnywhere, Category=Setting)
 	class UCameraComponent* playerCamera;
+	UPROPERTY(VisibleAnywhere, Category=Setting)
+	class UWidgetComponent* widgetComp;
 
 	UPROPERTY(EditAnywhere, category=Setting)
 	class UPlayerMove* playerMove;
-
 
 };

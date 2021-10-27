@@ -27,6 +27,8 @@ public:
 	void TrafficRedOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION()
 	void TrafficRedEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	void Move();
 public:
 	UPROPERTY(VisibleAnywhere, Category=Setting)
 	class UStaticMeshComponent* bodyMesh;
@@ -40,4 +42,7 @@ public:
 	class URectLightComponent* greenLTurnRight;
 	UPROPERTY(VisibleAnywhere, Category = LightSetting)
 	class URectLightComponent* greenRight;
+
+	UPROPERTY()
+	int playerCnt = 1;
 };
