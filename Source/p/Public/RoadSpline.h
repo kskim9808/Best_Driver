@@ -26,11 +26,6 @@ public:
 public:
 	UPROPERTY(VisibleAnywhere, Category=Setting)
 	class USplineComponent* spline; 
-
-	UPROPERTY(EditAnywhere, Category=Setting)
-	class ARoadSpline* straightRead;
 	UPROPERTY(EditAnywhere, Category = Setting)
-	class ARoadSpline* rightTurn;
-	UPROPERTY(EditAnywhere, Category = Setting)
-	class ARoadSpline* leftTurn;
+	float speedLimit;
 };

@@ -23,4 +23,17 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable)
+	void Spawn();
+public:
+	UPROPERTY(VisibleAnywhere, Category=Setting)
+	class USceneComponent* spawnRoot;
+	UPROPERTY(VisibleAnywhere, Category=Setting)
+	class UArrowComponent* spawnPosition;
+	UPROPERTY(EditAnywhere, Category=Setting)
+	TSubclassOf<class AOtherWheeledVehicle> spawnFactory;
+	UPROPERTY(EditAnywhere, Category = Setting)
+	class ARoadSpline* path;
+	UPROPERTY(VisibleAnywhere, Category = Setting)
+	bool spawned;
 };
