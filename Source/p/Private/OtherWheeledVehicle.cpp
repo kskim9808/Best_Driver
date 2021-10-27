@@ -39,7 +39,7 @@ void AOtherWheeledVehicle::BeginPlay()
 			arrPath.Add(path1);
 		}
 	}*/
-	Move();
+	Spawn();
 }
 
 void AOtherWheeledVehicle::Tick(float DeltaSeconds)
@@ -74,6 +74,18 @@ void AOtherWheeledVehicle::Move()
 {
 	GetVehicleMovement()->SetThrottleInput(speed);
 	GetVehicleMovement()->SetBrakeInput(false);
+}
+
+void AOtherWheeledVehicle::Spawn()
+{
+	if (cars.Num() == 0 || carAnimation.Num() == 0)
+	{
+		return;
+	}
+	carNum = UKismetMathLibrary::RandomInteger(5);
+	GetMesh()->SetSkeletalMesh(cars[carNum], true);
+	GetMesh()->SetAnimInstanceClass(carAnimation[carNum]);
+	Move();
 }
 
 void AOtherWheeledVehicle::OnCarBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

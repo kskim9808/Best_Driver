@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "WheeledVehicle.h"
+#include <VehicleAnimInstance.h>
 #include "OtherWheeledVehicle.generated.h"
 
 /**
@@ -29,6 +30,8 @@ public:
 	
 	void Move();
 	
+	void Spawn();
+
 	UFUNCTION()
 	void OnCarBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION()
@@ -45,5 +48,13 @@ public:
 	/*UPROPERTY(EditAnywhere, Category = Setting)
 	int pathNum = 0;*/
 
+	UPROPERTY(EditAnywhere, Category=Setting)
+	TArray<class USkeletalMesh*> cars;
+
+	UPROPERTY(EditAnywhere, Category = Setting)
+	TArray<TSubclassOf<UVehicleAnimInstance>> carAnimation;
+
+	UPROPERTY(VisibleAnywhere, Category=Setting)
+	int carNum;
 	bool stand = false;
 };
