@@ -38,12 +38,12 @@ public:
 	class UBoxComponent* boxComp;
 	UPROPERTY(EditAnywhere, Category = Setting)
 	class ARoadSpline* path1;
-	UPROPERTY(EditAnywhere, Category = Setting)
-	TArray<class ARoadSpline*> arrPath;
+	/*UPROPERTY(EditAnywhere, Category = Setting)
+	TArray<class ARoadSpline*> arrPath;*/
 	UPROPERTY(EditAnywhere, Category = Setting)
 	float speed = 0.6f;
-	UPROPERTY(EditAnywhere, Category = Setting)
-	int pathNum = 0;
+	/*UPROPERTY(EditAnywhere, Category = Setting)
+	int pathNum = 0;*/
 
 	bool stand = false;
 };

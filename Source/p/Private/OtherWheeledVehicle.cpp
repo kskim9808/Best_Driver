@@ -28,14 +28,18 @@ void AOtherWheeledVehicle::BeginPlay()
 	boxComp->OnComponentBeginOverlap.AddDynamic(this, &AOtherWheeledVehicle::OnCarBeginOverlap);
 	boxComp->OnComponentEndOverlap.AddDynamic(this, &AOtherWheeledVehicle::OnCarEndOverlap);
 
-	TArray<AActor*> actors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ARoadSpline::StaticClass(), actors);
-	for (auto actor : actors)
+/*
+	if (arrPath.Num() == 0)
 	{
-		path1 = Cast<ARoadSpline>(actor);
-		arrPath.Add(path1);
-	}
-	GetVehicleMovement()->SetThrottleInput(speed);
+		TArray<AActor*> actors;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ARoadSpline::StaticClass(), actors);
+		for (auto actor : actors)
+		{
+			path1 = Cast<ARoadSpline>(actor);
+			arrPath.Add(path1);
+		}
+	}*/
+	Move();
 }
 
 void AOtherWheeledVehicle::Tick(float DeltaSeconds)
@@ -47,14 +51,15 @@ void AOtherWheeledVehicle::Tick(float DeltaSeconds)
 
 float AOtherWheeledVehicle::GetPath()
 {
-	if (pathNum >= arrPath.Num())
+	if (path1 == nullptr)
 	{
 		return 0;
 	}
-	FVector loc = arrPath[pathNum]->spline->FindTangentClosestToWorldLocation(GetActorLocation(), ESplineCoordinateSpace::World);
+
+	FVector loc = path1->spline->FindTangentClosestToWorldLocation(GetActorLocation(), ESplineCoordinateSpace::World);
 	loc.Normalize();
 	FVector mulLoc = loc * 500.f;
-	auto rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), arrPath[pathNum]->spline->FindLocationClosestToWorldLocation(mulLoc + GetActorLocation(), ESplineCoordinateSpace::World));
+	auto rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), path1->spline->FindLocationClosestToWorldLocation(mulLoc + GetActorLocation(), ESplineCoordinateSpace::World));
 
 	return UKismetMathLibrary::MapRangeClamped(UKismetMathLibrary::NormalizedDeltaRotator(rot, GetActorRotation()).Yaw, -90.f, 90.f, -1.f, 1.f);
 }
