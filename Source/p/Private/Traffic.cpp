@@ -83,7 +83,7 @@ void ATraffic::Tick(float DeltaTime)
 void ATraffic::TrafficRedOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	auto aiCar = Cast<AOtherWheeledVehicle>(OtherActor);
-	auto player = Cast<APlayerVehicle>(OtherActor);
+	//auto player = Cast<APlayerVehicle>(OtherActor);
 	if (aiCar)
 	{
 		aiCar->Stop();
