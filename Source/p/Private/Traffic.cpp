@@ -69,13 +69,13 @@ void ATraffic::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (redRight->IsVisible() == true || yellowRight->IsVisible() == true)
+	if (greenRight->IsVisible() == true)
 	{
-		boxComp->SetCollisionProfileName(TEXT("Traffic"));
+		boxComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 	else
 	{
-		boxComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		boxComp->SetCollisionProfileName(TEXT("Traffic"));
 
 	}
 }
