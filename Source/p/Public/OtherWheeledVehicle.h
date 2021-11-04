@@ -25,7 +25,7 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 	float GetPath();
-
+	UFUNCTION(BlueprintCallable)
 	void Stop();
 	
 	void Move();
@@ -39,7 +39,7 @@ public:
 public:
 	UPROPERTY(VisibleAnywhere, Category=Setting)
 	class UBoxComponent* boxComp;
-	UPROPERTY(EditAnywhere, Category = Setting)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category = Setting)
 	class ARoadSpline* path1;
 	/*UPROPERTY(EditAnywhere, Category = Setting)
 	TArray<class ARoadSpline*> arrPath;*/
