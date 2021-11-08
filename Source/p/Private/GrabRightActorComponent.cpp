@@ -34,20 +34,13 @@ void UGrabRightActorComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	DrawGrabLine();
-	if (player->IsGripRight)
-	{
-		GrabAction();
-	}
-	else
-	{
-		ReleaseAction();
-	}
+	
 }
 
 void UGrabRightActorComponent::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
-	PlayerInputComponent->BindAction("RightGrip", IE_Pressed, this, &UGrabRightActorComponent::GrabGripAction);
-	PlayerInputComponent->BindAction("RightGrip", IE_Released, this, &UGrabRightActorComponent::ReleaseGripAction);
+	PlayerInputComponent->BindAction("RightGrip", IE_Pressed, this, &UGrabRightActorComponent::GrabAction);
+	PlayerInputComponent->BindAction("RightGrip", IE_Released, this, &UGrabRightActorComponent::ReleaseAction);
 }
 
 void UGrabRightActorComponent::DrawGrabLine()
@@ -67,7 +60,7 @@ void UGrabRightActorComponent::DrawGrabLine()
 	queryParams.AddIgnoredComponent(player->leftHand);
 	queryParams.AddIgnoredComponent(player->steeringWheel);
 
-	if (GetWorld()->SweepSingleByObjectType(hitInfo, startPos, startPos, FQuat::Identity, objParams, FCollisionShape::MakeSphere(10.0f), queryParams))
+	if (GetWorld()->SweepSingleByObjectType(hitInfo, startPos, startPos, FQuat::Identity, objParams, FCollisionShape::MakeSphere(20.0f), queryParams))
 	{
 		grabObject = hitInfo;
 	}
@@ -82,10 +75,7 @@ void UGrabRightActorComponent::DrawGrabLine()
 	//DrawDebugSphere(GetWorld(), startPos, 10.f, 30, FColor::Green, false, -1, 0, 1);
 }
 
-void UGrabRightActorComponent::GrabGripAction()
-{
-	player->IsGripRight = true;
-}
+
 
 void UGrabRightActorComponent::GrabAction()
 {
@@ -97,12 +87,9 @@ void UGrabRightActorComponent::GrabAction()
 		grabObject.GetComponent()->SetEnableGravity(false);
 		player->rightHand->SetVisibility(false);
 		player->rightVisibleHand->SetVisibility(true);
-	}
-}
+		player->IsGripRight = true;
 
-void UGrabRightActorComponent::ReleaseGripAction()
-{
-	player->IsGripRight = false;
+	}
 }
 
 void UGrabRightActorComponent::ReleaseAction()
@@ -113,4 +100,6 @@ void UGrabRightActorComponent::ReleaseAction()
 	player->wheelRightCollision->SetWorldLocation(player->steeringWheelRight->GetComponentLocation());
 	player->rightHand->SetVisibility(true);
 	player->rightVisibleHand->SetVisibility(false);
+	player->IsGripRight = false;
+
 }

@@ -59,7 +59,7 @@ void UGrabLeftActorComponent::DrawGrabLine()
 	queryParams.AddIgnoredComponent(player->rightHand);
 	queryParams.AddIgnoredComponent(player->steeringWheel);
 
-	if (GetWorld()->SweepSingleByObjectType(hitInfo, startPos, startPos, FQuat::Identity, objParams, FCollisionShape::MakeSphere(10.0f), queryParams))
+	if (GetWorld()->SweepSingleByObjectType(hitInfo, startPos, startPos, FQuat::Identity, objParams, FCollisionShape::MakeSphere(20.0f), queryParams))
 	{
 		grabObject = hitInfo;
 	}
