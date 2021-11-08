@@ -47,7 +47,6 @@ public:
 	float speed = 0.6f;
 	/*UPROPERTY(EditAnywhere, Category = Setting)
 	int pathNum = 0;*/
-
 	UPROPERTY(EditAnywhere, Category=Setting)
 	TArray<class USkeletalMesh*> cars;
 

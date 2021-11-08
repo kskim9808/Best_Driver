@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "PlayerMove.generated.h"
+#include "GrabRightActorComponent.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class P_API UPlayerMove : public UActorComponent
+class P_API UGrabRightActorComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UPlayerMove();
+	UGrabRightActorComponent();
 
 protected:
 	// Called when the game starts
@@ -23,22 +23,18 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 	void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent);
-
-	void MoveForward(float value);
-	void MoveRight(float value);
-	void BrakePressed();
-	void BrakeReleased();
 	
+	void DrawGrabLine();
+	void GrabAction();
+	void GrabGripAction();
+	void ReleaseAction();
+	void ReleaseGripAction();
+public:
+	UPROPERTY(VisibleAnywhere, Category=player)
 	class APlayerVehicle* player;
 
-	UPROPERTY(EditAnywhere, Category = MoveSettings)
-	float moveSpeed = 0.8f;
+	UPROPERTY()
+	FHitResult grabObject;
 
-	void ResetHMD();
-	bool IsTrigger=false;
-	FRotator hmdRotate;
-	FVector hmdLocation;
-		
 };
