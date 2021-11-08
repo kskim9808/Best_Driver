@@ -27,9 +27,9 @@ public:
 	
 	void DrawGrabLine();
 	void GrabAction();
-	void GrabGripAction();
+	//void GrabGripAction();
 	void ReleaseAction();
-	void ReleaseGripAction();
+//	void ReleaseGripAction();
 public:
 	UPROPERTY(VisibleAnywhere, Category=player)
 	class APlayerVehicle* player;
