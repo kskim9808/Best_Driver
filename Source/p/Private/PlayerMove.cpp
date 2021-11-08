@@ -41,6 +41,7 @@ void UPlayerMove::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	player->GetVehicleMovement()->SetSteeringInput((player->objValueRight / 90.f) * moveSpeed);
 	// ...
 }
 
@@ -61,8 +62,10 @@ void UPlayerMove::MoveForward(float value)
 	{
 		return;
 	}
+	player->moveValue = value;
 
 	player->GetVehicleMovement()->SetThrottleInput(value * moveSpeed);
+
 }
 
 void UPlayerMove::MoveRight(float value)
@@ -71,8 +74,6 @@ void UPlayerMove::MoveRight(float value)
 	{
 		return;
 	}
-
-	player->GetVehicleMovement()->SetSteeringInput(value * moveSpeed);
 }
 
 void UPlayerMove::BrakePressed()

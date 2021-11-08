@@ -27,16 +27,57 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 public: 
-	UPROPERTY(VisibleAnywhere, Category = Setting)
+	UPROPERTY(VisibleAnywhere, Category=Setting)
 	class USceneComponent* cameraRoot;
 	UPROPERTY(VisibleAnywhere, Category=Setting)
 	class UCameraComponent* playerCamera;
+	UPROPERTY(VisibleAnywhere, Category=SteeringWheel)
+	class USceneComponent* steeringWheelRoot;
+	UPROPERTY(VisibleAnywhere, Category=SteeringWheel)
+	class UStaticMeshComponent* steeringWheel;
+	UPROPERTY(VisibleAnywhere, Category = SteeringWheel)
+	class UArrowComponent* steeringWheelLeft;
+	UPROPERTY(VisibleAnywhere, Category = SteeringWheel)
+	class UArrowComponent* steeringWheelRight;
+	UPROPERTY(VisibleAnywhere, Category=SteeringWheel)
+	class USphereComponent* wheelLeftCollision;
+	UPROPERTY(VisibleAnywhere, Category = SteeringWheel)
+	class USphereComponent* wheelRightCollision;
+
+	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
+	class UMotionControllerComponent* leftController;
+	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
+	class USkeletalMeshComponent* leftHand;
+	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
+		class UStaticMeshComponent* leftVisibleHand;
+	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
+	class UMotionControllerComponent* rightController;
+	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
+	class USkeletalMeshComponent* rightHand;
+	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
+		class UStaticMeshComponent* rightVisibleHand;
+	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
+	class UGrabRightActorComponent* grabRightComp;
+	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
+	class UGrabLeftActorComponent* grabLeftComp;
+
 	UPROPERTY(VisibleAnywhere, Category=Setting)
 	class UWidgetComponent* widgetComp;
-	UPROPERTY(EditAnywhere, Category = Setting)
+	UPROPERTY(EditAnywhere, Category=Setting)  
 	TSubclassOf<UUserWidget> widgetFactory;
 
 	UPROPERTY(EditAnywhere, category=Setting)
 	class UPlayerMove* playerMove;
+	UPROPERTY(BlueprintReadWrite)
+	FString objName;
+	UPROPERTY(BlueprintReadWrite)
+	float objValueLeft;
+	UPROPERTY(BlueprintReadWrite)
+	float objValueRight;
+	UPROPERTY(BlueprintReadWrite)
+		float moveValue;
 
+
+	UPROPERTY(BlueprintReadWrite)
+	bool IsGripRight = false;
 };
