@@ -69,7 +69,9 @@ public:
 	UPROPERTY(EditAnywhere, category=Setting)
 	class UPlayerMove* playerMove;
 	UPROPERTY(BlueprintReadWrite)
-	FString objName;
+		FString objName; 
+	UPROPERTY(BlueprintReadWrite)
+		TArray<FString> arrObjName;
 	UPROPERTY(BlueprintReadWrite)
 	float objValueLeft;
 	UPROPERTY(BlueprintReadWrite)
@@ -79,5 +81,7 @@ public:
 
 
 	UPROPERTY(BlueprintReadWrite)
-	bool IsGripRight = false;
+		bool IsGripRight = false; 
+	UPROPERTY(BlueprintReadWrite)
+		bool IsGripLeft = false;
 };

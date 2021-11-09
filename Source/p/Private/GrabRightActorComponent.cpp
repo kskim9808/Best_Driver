@@ -58,9 +58,11 @@ void UGrabRightActorComponent::DrawGrabLine()
 	FCollisionQueryParams queryParams;
 	queryParams.AddIgnoredComponent(player->GetMesh());
 	queryParams.AddIgnoredComponent(player->leftHand);
+	queryParams.AddIgnoredComponent(player->leftHand);
+	queryParams.AddIgnoredComponent(player->wheelLeftCollision);
 	queryParams.AddIgnoredComponent(player->steeringWheel);
 
-	if (GetWorld()->SweepSingleByObjectType(hitInfo, startPos, startPos, FQuat::Identity, objParams, FCollisionShape::MakeSphere(20.0f), queryParams))
+	if (GetWorld()->SweepSingleByObjectType(hitInfo, startPos, startPos, FQuat::Identity, objParams, FCollisionShape::MakeSphere(15.0f), queryParams))
 	{
 		grabObject = hitInfo;
 	}
@@ -68,11 +70,11 @@ void UGrabRightActorComponent::DrawGrabLine()
 	{
 		grabObject = FHitResult();
 	}
-	if (grabObject.GetComponent() != nullptr)
-	{
-		player->objName = grabObject.GetComponent()->GetName();
-	}
-	//DrawDebugSphere(GetWorld(), startPos, 10.f, 30, FColor::Green, false, -1, 0, 1);
+// 	if (grabObject.GetComponent() != nullptr)
+// 	{
+// 		player->objName = grabObject.GetComponent()->GetName();
+// 	}
+	//DrawDebugSphere(GetWorld(), startPos, 15.f, 30, FColor::Green, false, -1, 0, 1);
 }
 
 

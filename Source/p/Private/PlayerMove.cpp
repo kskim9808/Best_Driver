@@ -40,8 +40,25 @@ void UPlayerMove::BeginPlay()
 void UPlayerMove::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
+	if (player->IsGripLeft && player->IsGripRight)
+	{
 	player->GetVehicleMovement()->SetSteeringInput((player->objValueRight / 90.f) * moveSpeed);
+		
+	}
+	else if (player->IsGripRight && !(player->IsGripLeft))
+	{
+	player->GetVehicleMovement()->SetSteeringInput((player->objValueRight / 90.f) * moveSpeed);
+		
+	}
+	else if (player->IsGripLeft && !(player->IsGripRight))
+	{
+		player->GetVehicleMovement()->SetSteeringInput((player->objValueLeft / 90.f) * moveSpeed);
+		
+	}
+	else if (!(player->IsGripLeft) && !(player->IsGripRight))
+	{
+		player->GetVehicleMovement()->SetSteeringInput(0);
+	}
 	// ...
 }
 

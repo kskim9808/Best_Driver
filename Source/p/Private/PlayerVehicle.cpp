@@ -39,10 +39,11 @@ APlayerVehicle::APlayerVehicle()
 	leftHand->SetupAttachment(leftController);
 	leftHand->SetRelativeRotation(FRotator(0, 0, -90.0f));
 	leftHand->SetRelativeScale3D(FVector(1.0f, -1.f, 1.f));
-
+	leftHand->SetRelativeLocation(FVector(-10.f, 0, 0));
 	rightHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Right Hand"));
 	rightHand->SetupAttachment(rightController);
 	rightHand->SetRelativeRotation(FRotator(0, 0, 90.0f));
+	rightHand->SetRelativeLocation(FVector(-10.f, 0, 0));
 
 
 	steeringWheelRoot = CreateDefaultSubobject<USceneComponent>(TEXT("SteeringWheelRoot"));
@@ -93,28 +94,39 @@ void APlayerVehicle::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	/*if (IsGripRight)
-	{
-
-		
-	}
-	else
-	{
-		FVector wheelLoc = steeringWheelLeft->GetComponentLocation() - wheelLeftCollision->GetComponentLocation();
-	objValueLeft = UKismetMathLibrary::Clamp(steeringWheel->GetComponentRotation().Roll + wheelLoc.Z, -90, 90);
-	steeringWheel->SetWorldRotation(FRotator(steeringWheel->GetComponentRotation().Pitch, steeringWheel->GetComponentRotation().Yaw, objValueLeft));
-	}*/
-
 	
-	FVector wheelLoc = steeringWheelRight->GetComponentLocation() - wheelRightCollision->GetComponentLocation();
-	objValueRight = UKismetMathLibrary::Clamp(steeringWheel->GetComponentRotation().Roll + wheelLoc.Z, -90, 90);
-	if (IsGripRight == false)
+	FVector wheelRightLoc = steeringWheelRight->GetComponentLocation() - wheelRightCollision->GetComponentLocation();
+	objValueRight = UKismetMathLibrary::Clamp(steeringWheel->GetComponentRotation().Roll + wheelRightLoc.Z, -90, 90);
+	FVector wheelLeftLoc = steeringWheelLeft->GetComponentLocation() - wheelLeftCollision->GetComponentLocation();
+	objValueLeft = UKismetMathLibrary::Clamp(steeringWheel->GetComponentRotation().Roll + -wheelLeftLoc.Z, -90, 90);
+
+	if (IsGripLeft && IsGripRight)
+	{
+		steeringWheel->SetWorldRotation(FRotator(steeringWheel->GetComponentRotation().Pitch, steeringWheel->GetComponentRotation().Yaw, objValueRight));
+	}
+	else if (IsGripRight && !(IsGripLeft))
+	{
+		wheelLeftCollision->SetWorldLocation(steeringWheelLeft->GetComponentLocation());
+		objValueLeft = 0.f;
+		steeringWheel->SetWorldRotation(FRotator(steeringWheel->GetComponentRotation().Pitch, steeringWheel->GetComponentRotation().Yaw, objValueRight));
+	}
+	else if (IsGripLeft && !(IsGripRight))
 	{
 		wheelRightCollision->SetWorldLocation(steeringWheelRight->GetComponentLocation());
 		objValueRight = 0.f;
+		steeringWheel->SetWorldRotation(FRotator(steeringWheel->GetComponentRotation().Pitch, steeringWheel->GetComponentRotation().Yaw, objValueLeft));
 	}
-	steeringWheel->SetWorldRotation(FRotator(steeringWheel->GetComponentRotation().Pitch, steeringWheel->GetComponentRotation().Yaw, objValueRight));
-	wheelLeftCollision->SetWorldLocation(steeringWheelLeft->GetComponentLocation());
+	else if (!(IsGripRight) && !(IsGripLeft))
+	{
+		objValueLeft = 0.f;
+		objValueRight = 0.f;
+		wheelLeftCollision->SetWorldLocation(steeringWheelLeft->GetComponentLocation());
+		wheelRightCollision->SetWorldLocation(steeringWheelRight->GetComponentLocation());
+		steeringWheel->SetWorldRotation(FRotator(steeringWheel->GetComponentRotation().Pitch, steeringWheel->GetComponentRotation().Yaw, 0));
+	}
+
+	
+	
 	
 
 }

@@ -51,15 +51,13 @@ void UGrabLeftActorComponent::DrawGrabLine()
 	// 물리 객체와 동적 객체에 대해서 충돌 체크
 	FCollisionObjectQueryParams objParams;
 	objParams.AddObjectTypesToQuery(ECC_WorldDynamic);
-	objParams.AddObjectTypesToQuery(ECC_PhysicsBody);
-
 	// 플레이어 액터는 무시
 	FCollisionQueryParams queryParams;
 	queryParams.AddIgnoredComponent(player->GetMesh());
 	queryParams.AddIgnoredComponent(player->rightHand);
+	queryParams.AddIgnoredComponent(player->wheelRightCollision);
 	queryParams.AddIgnoredComponent(player->steeringWheel);
-
-	if (GetWorld()->SweepSingleByObjectType(hitInfo, startPos, startPos, FQuat::Identity, objParams, FCollisionShape::MakeSphere(20.0f), queryParams))
+	if (GetWorld()->SweepSingleByObjectType(hitInfo, startPos, startPos, FQuat::Identity, objParams, FCollisionShape::MakeSphere(15.0f), queryParams))
 	{
 		grabObject = hitInfo;
 	}
@@ -67,11 +65,25 @@ void UGrabLeftActorComponent::DrawGrabLine()
 	{
 		grabObject = FHitResult();
 	}
-	if (grabObject.GetComponent() != nullptr)
-	{
-		player->objName = grabObject.GetComponent()->GetName();
-	}
-	//DrawDebugSphere(GetWorld(), startPos, 10.f, 30, FColor::Green, false, -1, 0, 1);
+// 	TArray<FHitResult> arrHitInfo;
+// 	if (GetWorld()->SweepMultiByChannel(arrHitInfo, startPos, startPos, FQuat::Identity, ECC_WorldDynamic, FCollisionShape::MakeSphere(150.0f), queryParams))
+// 	{
+// 		grabObjects = arrHitInfo;
+// 	}
+// 	else
+// 	{
+// 		grabObjects = TArray<FHitResult>();
+// 	}
+// 	if (grabObjects.GetData() != nullptr)
+// 	{
+// 		for (int i = 0; i < grabObjects.Num(); i++)
+// 		{
+// 		
+// 			player->arrObjName[i] = grabObjects[i].GetComponent()->GetName();
+// 		}
+// 	}
+	
+	//DrawDebugSphere(GetWorld(), startPos, 15.f, 30, FColor::Green, false, -1, 0, 1);
 }
 
 void UGrabLeftActorComponent::GrabAction()
@@ -84,6 +96,7 @@ void UGrabLeftActorComponent::GrabAction()
 		grabObject.GetComponent()->SetEnableGravity(false);
 		player->leftHand->SetVisibility(false);
 		player->leftVisibleHand->SetVisibility(true);
+		player->IsGripLeft = true;
 	}
 }
 
@@ -95,5 +108,5 @@ void UGrabLeftActorComponent::ReleaseAction()
 	player->wheelLeftCollision->SetWorldLocation(player->steeringWheelLeft->GetComponentLocation());
 	player->leftHand->SetVisibility(true);
 	player->leftVisibleHand->SetVisibility(false);
-
+	player->IsGripLeft = false;
 }

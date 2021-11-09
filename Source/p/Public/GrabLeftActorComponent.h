@@ -33,5 +33,7 @@ public:
 		class APlayerVehicle* player;
 
 	UPROPERTY()
-		FHitResult grabObject;
+	FHitResult grabObject; 
+		UPROPERTY()
+	TArray<FHitResult> grabObjects;
 };
