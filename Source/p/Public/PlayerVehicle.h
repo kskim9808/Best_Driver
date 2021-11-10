@@ -56,6 +56,16 @@ public:
 	class USkeletalMeshComponent* rightHand;
 	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
 		class UStaticMeshComponent* rightVisibleHand;
+
+	UPROPERTY(VisibleAnywhere, Category = PlayerSetting)
+	class UPlanarReflectionComponent* mirrorRoot;
+	UPROPERTY(VisibleAnywhere, Category = PlayerSetting)
+	class UStaticMeshComponent* leftSideMirror;
+	UPROPERTY(VisibleAnywhere, Category = PlayerSetting)
+	class UStaticMeshComponent* rightSideMirror;
+	UPROPERTY(VisibleAnywhere, Category = PlayerSetting)
+	class UStaticMeshComponent* backMirror;
+
 	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
 	class UGrabRightActorComponent* grabRightComp;
 	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)

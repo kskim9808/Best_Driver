@@ -13,6 +13,7 @@
 #include <Components/ArrowComponent.h>
 #include <Kismet/KismetMathLibrary.h>
 #include "GrabLeftActorComponent.h"
+#include <Components/PlanarReflectionComponent.h>
 
 
 APlayerVehicle::APlayerVehicle()
@@ -72,6 +73,32 @@ APlayerVehicle::APlayerVehicle()
 	wheelRightCollision = CreateDefaultSubobject<USphereComponent>(TEXT("SteeringWheelRightCollision"));
 	wheelRightCollision->SetupAttachment(steeringWheelRoot);
 	wheelRightCollision->SetSphereRadius(3.f);
+
+	mirrorRoot = CreateDefaultSubobject<UPlanarReflectionComponent>(TEXT("MirrorRoot"));
+	mirrorRoot->SetupAttachment(GetMesh());
+	mirrorRoot->SetRelativeLocation(FVector(50.f, 0, 90.f));
+	mirrorRoot->SetRelativeRotation(FRotator(90.f, 0, 0));
+	mirrorRoot->SetRelativeScale3D(FVector(0.1f, 0.1f, 1.f));
+	mirrorRoot->DistanceFromPlaneFadeoutStart = 1500.f;
+	mirrorRoot->ScreenPercentage = 100.f;
+	leftSideMirror = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftSideMirror"));
+	leftSideMirror->SetupAttachment(mirrorRoot);
+	leftSideMirror->SetRelativeLocation(FVector(54.f, -798.f, 0));
+	leftSideMirror->SetRelativeRotation(FRotator(0, 4.4f, 0));
+	leftSideMirror->SetRelativeScale3D(FVector(0.87f, 1.7f, 1.f));
+	leftSideMirror->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	rightSideMirror = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightSideMirror"));
+	rightSideMirror->SetupAttachment(mirrorRoot);
+	rightSideMirror->SetRelativeLocation(FVector(54.f, 807.f, 0));
+	rightSideMirror->SetRelativeRotation(FRotator(0, -4.4f, 0));
+	rightSideMirror->SetRelativeScale3D(FVector(0.87f, 1.7f, 1.f));
+	rightSideMirror->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	backMirror = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BackMirror"));
+	backMirror->SetupAttachment(mirrorRoot);
+	backMirror->SetRelativeLocation(FVector(212.f, 8.f, 26.8f));
+	backMirror->SetRelativeRotation(FRotator(10.f, 0, 0));
+	backMirror->SetRelativeScale3D(FVector(0.57f, 1.55f, 1.f));
+	backMirror->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	widgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("WidgetComponent"));
 	widgetComp->SetupAttachment(cameraRoot);
