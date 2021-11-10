@@ -95,6 +95,8 @@ void UPlayerMove::MoveRight(float value)
 	{
 		return;
 	}
+	player->GetVehicleMovement()->SetSteeringInput(value * moveSpeed);
+
 }
 
 // 브레이크
