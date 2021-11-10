@@ -40,6 +40,10 @@ void UPlayerMove::BeginPlay()
 void UPlayerMove::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	
+	// 양손으로 Grip 시 오른손으로 움직인 핸들방향의 정도를 기준으로 steering 값을 넣어주고
+	// 왼손으로 Grip 시 왼손기준 오른손으로 Grip 시 오른손 기준
+	// 모두 아닐 시 0값으로 넣어줌 
 	if (player->IsGripLeft && player->IsGripRight)
 	{
 	player->GetVehicleMovement()->SetSteeringInput((player->objValueRight / 90.f) * moveSpeed);
@@ -72,7 +76,7 @@ void UPlayerMove::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("Handbrake", IE_Released, this, &UPlayerMove::BrakeReleased);
 
 }
-
+// 전진
 void UPlayerMove::MoveForward(float value)
 {
 	if (player == nullptr)
@@ -93,6 +97,7 @@ void UPlayerMove::MoveRight(float value)
 	}
 }
 
+// 브레이크
 void UPlayerMove::BrakePressed()
 {
 	if (player == nullptr)
@@ -112,6 +117,7 @@ void UPlayerMove::BrakeReleased()
 	player->GetVehicleMovement()->SetHandbrakeInput(false);
 }
 
+// 플레이어 vr 카메라 위치 초기화
 void UPlayerMove::ResetHMD()
 {
 	

@@ -33,6 +33,9 @@ void ASpawnPoint::Tick(float DeltaTime)
 
 void ASpawnPoint::Spawn()
 {
+	// 스폰이 이미 된 상황 이면 리턴
+	// 스폰 아직 안됐다면 OtherWheeledVehicle 스폰
+	// 스폰시 spawnFactory에서 지정해준 해당 path(길)을 중심으로 이동
 	if (spawned)
 	{
 		return;

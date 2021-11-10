@@ -51,7 +51,7 @@ void UGrabLeftActorComponent::DrawGrabLine()
 	// 물리 객체와 동적 객체에 대해서 충돌 체크
 	FCollisionObjectQueryParams objParams;
 	objParams.AddObjectTypesToQuery(ECC_WorldDynamic);
-	// 플레이어 액터는 무시
+	// 무시하고 싶은 컴포넌트 추가
 	FCollisionQueryParams queryParams;
 	queryParams.AddIgnoredComponent(player->GetMesh());
 	queryParams.AddIgnoredComponent(player->rightHand);
@@ -88,6 +88,10 @@ void UGrabLeftActorComponent::DrawGrabLine()
 
 void UGrabLeftActorComponent::GrabAction()
 {
+	// Grip 을 눌렀을시
+	// 만약 Hitresult 된 것이 wheelLeftCollision 이라면
+	// 해당 컴포넌트를 leftHand 에 붙힘
+	// 붙힐 때 주의점 : 피직스와 중력을 꺼줘야함
 	if (grabObject.GetComponent() == player->wheelLeftCollision)
 	{
 		FAttachmentTransformRules attachRules = FAttachmentTransformRules::SnapToTargetNotIncludingScale;
@@ -102,6 +106,8 @@ void UGrabLeftActorComponent::GrabAction()
 
 void UGrabLeftActorComponent::ReleaseAction()
 {
+	// Grip 버튼 릴리즈시 leftHand에서 때주고
+	// 빠진 wheelLeftCollision 을 원래 위치에 다시 붙혀줌
 	player->wheelLeftCollision->SetEnableGravity(true);
 	player->wheelLeftCollision->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 	player->leftHand->SetVisibility(true);

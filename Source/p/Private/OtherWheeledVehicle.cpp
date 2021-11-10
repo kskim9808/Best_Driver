@@ -76,7 +76,7 @@ void AOtherWheeledVehicle::Move()
 	GetVehicleMovement()->SetThrottleInput(speed);
 	GetVehicleMovement()->SetBrakeInput(false);
 }
-
+// 시작시 지정해준 여러 개의 자동차스켈레탈메쉬중 랜덤으로 skeletal mesh 에 넣어줌
 void AOtherWheeledVehicle::Spawn()
 {
 	if (cars.Num() == 0 || carAnimation.Num() == 0)
@@ -88,7 +88,7 @@ void AOtherWheeledVehicle::Spawn()
 	GetMesh()->SetAnimInstanceClass(carAnimation[carNum]);
 	Move();
 }
-
+// 자기 자신이나 플레이어가 해당 콜리전에 오버랩시 멈춤
 void AOtherWheeledVehicle::OnCarBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	auto player = Cast<APlayerVehicle>(OtherActor);
@@ -98,7 +98,7 @@ void AOtherWheeledVehicle::OnCarBeginOverlap(UPrimitiveComponent* OverlappedComp
 		Stop();
 	}
 }
-
+// 오버랩이 끝나면 다시 움직임
 void AOtherWheeledVehicle::OnCarEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	Move();

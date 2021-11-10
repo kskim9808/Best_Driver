@@ -28,7 +28,7 @@ public:
 	UFUNCTION()
 	void TrafficRedEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	void Move();
+	//void Move();
 public:
 	UPROPERTY(VisibleAnywhere, Category=Setting)
 	class UStaticMeshComponent* bodyMesh;
