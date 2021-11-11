@@ -18,6 +18,7 @@ APlayerCourse::APlayerCourse()
 }
 
 
+/*
 void APlayerCourse::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
@@ -44,7 +45,7 @@ void APlayerCourse::OnConstruction(const FTransform& Transform)
 		bodyMesh->SetStartScale(FVector2D(startScale * 0.5f, startScale * 0.5f * 1.f));
 		bodyMesh->SetEndScale(FVector2D(endScale * 0.5f, endScale * 0.5f * 1.f));
 	}
-}
+}*/
 
 // Called when the game starts or when spawned
 void APlayerCourse::BeginPlay()
