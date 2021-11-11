@@ -22,5 +22,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category = Setting)
+	class USplineComponent* spline;
 };
