@@ -15,7 +15,7 @@ public:
 	// Sets default values for this actor's properties
 	APlayerCourse();
 
-	//virtual void OnConstruction(const FTransform& Transform) override;
+	virtual void OnConstruction(const FTransform& Transform) override;
 
 protected:
 	// Called when the game starts or when spawned
@@ -28,11 +28,11 @@ public:
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category = Setting)
 	class USplineComponent* spline;
- 	/*UPROPERTY(EditAnywhere, Category = Setting)
+ 	UPROPERTY(EditAnywhere, Category = Setting)
 	class USplineMeshComponent* bodyMesh;
 
 	UPROPERTY()
 	float sigment;
 	UPROPERTY()
-	int lastIndex;*/
+	int lastIndex;
 };

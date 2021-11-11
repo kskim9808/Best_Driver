@@ -15,14 +15,20 @@ APlayerCourse::APlayerCourse()
 	spline = CreateDefaultSubobject<USplineComponent>(TEXT("Spline"));
 	RootComponent = spline;
 
-	/*lastIndex = UKismetMathLibrary::FTrunc(spline->GetSplineLength() / UKismetMathLibrary::Clamp(500.f, 50.f, 100000.f));
+}
+
+
+void APlayerCourse::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+	
+	lastIndex = UKismetMathLibrary::FTrunc(spline->GetSplineLength() / UKismetMathLibrary::Clamp(500.f, 50.f, 100000.f));
 	sigment = spline->GetSplineLength() / (lastIndex + 1);
 
 
 	for (int i = 0; i < lastIndex; i++)
 	{
-		bodyMesh = CreateDefaultSubobject<USplineMeshComponent>(TEXT("BodyMesh"));
-		bodyMesh->SetupAttachment(spline);
+		bodyMesh = NewObject<USplineMeshComponent>(this, USplineMeshComponent::StaticClass());
 		static ConstructorHelpers::FObjectFinder<UStaticMesh> meshAsset(TEXT("/Game/Moon/Mesh/SM_PlayerCourse.SM_PlayerCourse"));
 		if (meshAsset.Succeeded())
 		{
@@ -38,16 +44,7 @@ APlayerCourse::APlayerCourse()
 		bodyMesh->SetStartScale(FVector2D(startScale * 0.5f, startScale * 0.5f * 1.f));
 		bodyMesh->SetEndScale(FVector2D(endScale * 0.5f, endScale * 0.5f * 1.f));
 	}
-	*/
 }
-
-/*
-void APlayerCourse::OnConstruction(const FTransform& Transform)
-{
-	Super::OnConstruction(Transform);
-	
-	
-}*/
 
 // Called when the game starts or when spawned
 void APlayerCourse::BeginPlay()
