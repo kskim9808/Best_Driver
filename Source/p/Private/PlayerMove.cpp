@@ -95,7 +95,7 @@ void UPlayerMove::MoveRight(float value)
 	{
 		return;
 	}
-	player->GetVehicleMovement()->SetSteeringInput(value * moveSpeed);
+	//player->GetVehicleMovement()->SetSteeringInput(value * moveSpeed);
 
 }
 
