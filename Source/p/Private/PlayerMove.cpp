@@ -46,17 +46,17 @@ void UPlayerMove::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 	// 모두 아닐 시 0값으로 넣어줌 
 	if (player->IsGripLeft && player->IsGripRight)
 	{
-	player->GetVehicleMovement()->SetSteeringInput((player->objValueRight / 90.f) * moveSpeed);
+	player->GetVehicleMovement()->SetSteeringInput((player->objValueRight / 90.f));
 		
 	}
 	else if (player->IsGripRight && !(player->IsGripLeft))
 	{
-	player->GetVehicleMovement()->SetSteeringInput((player->objValueRight / 90.f) * moveSpeed);
+	player->GetVehicleMovement()->SetSteeringInput((player->objValueRight / 90.f));
 		
 	}
 	else if (player->IsGripLeft && !(player->IsGripRight))
 	{
-		player->GetVehicleMovement()->SetSteeringInput((player->objValueLeft / 90.f) * moveSpeed);
+		player->GetVehicleMovement()->SetSteeringInput((player->objValueLeft / 90.f));
 		
 	}
 	else if (!(player->IsGripLeft) && !(player->IsGripRight))
