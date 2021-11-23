@@ -2,6 +2,8 @@
 
 
 #include "CitizenCharacter.h"
+#include "CitizenFSM.h"
+#include <Components/CapsuleComponent.h>
 
 // Sets default values
 ACitizenCharacter::ACitizenCharacter()
@@ -9,6 +11,9 @@ ACitizenCharacter::ACitizenCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Citizen"));
+
+	citizenFSM = CreateDefaultSubobject<UCitizenFSM>(TEXT("CitizenFSM"));
 }
 
 // Called when the game starts or when spawned
