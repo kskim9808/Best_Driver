@@ -50,12 +50,17 @@ public:
 	class USkeletalMeshComponent* leftHand;
 	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
 		class UStaticMeshComponent* leftVisibleHand;
+	UPROPERTY(VisibleAnywhere, Category = PlayerSetting)
+	class UStaticMeshComponent* leftTutorialHand;
+	
 	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
 	class UMotionControllerComponent* rightController;
 	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
 	class USkeletalMeshComponent* rightHand;
 	UPROPERTY(VisibleAnywhere, Category = PlayerSettings)
-		class UStaticMeshComponent* rightVisibleHand;
+	class UStaticMeshComponent* rightVisibleHand;
+	UPROPERTY(VisibleAnywhere, Category = PlayerSetting)
+	class UStaticMeshComponent* rightTutorialHand;
 
 	UPROPERTY(VisibleAnywhere, Category = PlayerSetting)
 	class UPlanarReflectionComponent* mirrorRoot;

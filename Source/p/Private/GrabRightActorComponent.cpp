@@ -89,6 +89,7 @@ void UGrabRightActorComponent::GrabAction()
 		grabObject.GetComponent()->SetEnableGravity(false);
 		player->rightHand->SetVisibility(false);
 		player->rightVisibleHand->SetVisibility(true);
+		player->rightTutorialHand->SetVisibility(false);
 		player->IsGripRight = true;
 
 	}
@@ -102,6 +103,7 @@ void UGrabRightActorComponent::ReleaseAction()
 	player->wheelRightCollision->SetWorldLocation(player->steeringWheelRight->GetComponentLocation());
 	player->rightHand->SetVisibility(true);
 	player->rightVisibleHand->SetVisibility(false);
+	player->rightTutorialHand->SetVisibility(true);
 	player->IsGripRight = false;
 
 }

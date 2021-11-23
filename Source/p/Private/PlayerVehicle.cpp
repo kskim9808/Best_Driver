@@ -69,10 +69,18 @@ APlayerVehicle::APlayerVehicle()
 	leftVisibleHand = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftVisibleHand"));
 	leftVisibleHand->SetupAttachment(steeringWheel);
 	leftVisibleHand->SetVisibility(false);
+	leftTutorialHand = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftTutorialHand"));
+	leftTutorialHand->SetupAttachment(steeringWheel);
+	leftTutorialHand->SetVisibility(true);
+
 	// 오른손 Grip 시 자동차 휠 쥐고 있는 메쉬
 	rightVisibleHand = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightVisibleHand"));
 	rightVisibleHand->SetupAttachment(steeringWheel);
 	rightVisibleHand->SetVisibility(false);
+	rightTutorialHand = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightTutorialHand"));
+	rightTutorialHand->SetupAttachment(steeringWheel);
+	rightTutorialHand->SetVisibility(true);
+
 	// 왼손으로 쥐고 핸들링 할 충돌체
 	wheelLeftCollision = CreateDefaultSubobject<USphereComponent>(TEXT("SteeringWheelLeftCollision"));
 	wheelLeftCollision->SetupAttachment(steeringWheelRoot);
