@@ -5,6 +5,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "PlayerVehicle.h"
 #include <WheeledVehicleMovementComponent.h>
+#include <Kismet/GameplayStatics.h>
 
 // Sets default values for this component's properties
 UPlayerMove::UPlayerMove()
@@ -63,7 +64,6 @@ void UPlayerMove::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 	{
 		player->GetVehicleMovement()->SetSteeringInput(0);
 	}
-	// ...
 }
 
 void UPlayerMove::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -84,7 +84,6 @@ void UPlayerMove::MoveForward(float value)
 		return;
 	}
 	player->moveValue = value;
-
 	player->GetVehicleMovement()->SetThrottleInput(value * moveSpeed);
 
 }

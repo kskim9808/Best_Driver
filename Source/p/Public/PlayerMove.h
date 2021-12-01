@@ -40,5 +40,6 @@ public:
 	bool IsTrigger=false;
 	FRotator hmdRotate;
 	FVector hmdLocation;
-		
+	bool moveAxis = false;
+
 };
