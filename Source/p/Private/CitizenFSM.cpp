@@ -48,13 +48,13 @@ void UCitizenFSM::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 		break;
 	}
 }
-
+// 캐릭터 정지상태
 void UCitizenFSM::IdelState()
 {
 	anim->state = m_state;
 
 }
-
+// 캐릭터 이동
 void UCitizenFSM::MoveState()
 {
 	anim->state = m_state;
