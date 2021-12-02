@@ -4,6 +4,7 @@
 #include "CitizenCharacter.h"
 #include "CitizenFSM.h"
 #include <Components/CapsuleComponent.h>
+#include <GameFramework/CharacterMovementComponent.h>
 
 // Sets default values
 ACitizenCharacter::ACitizenCharacter()
@@ -12,6 +13,7 @@ ACitizenCharacter::ACitizenCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Citizen"));
+	GetCharacterMovement()->MaxWalkSpeed = 800;
 
 	citizenFSM = CreateDefaultSubobject<UCitizenFSM>(TEXT("CitizenFSM"));
 }
