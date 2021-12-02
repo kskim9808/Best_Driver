@@ -13,7 +13,7 @@ ACitizenCharacter::ACitizenCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Citizen"));
-	GetCharacterMovement()->MaxWalkSpeed = 800;
+	GetCharacterMovement()->MaxWalkSpeed = 700;
 
 	citizenFSM = CreateDefaultSubobject<UCitizenFSM>(TEXT("CitizenFSM"));
 }
