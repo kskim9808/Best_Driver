@@ -25,7 +25,7 @@ void UCitizenFSM::BeginPlay()
 	// ...
 	me = Cast<ACitizenCharacter>(GetOwner());
 	anim = Cast<UCitizenAnimInstance>(me->GetMesh()->GetAnimInstance());
-	me->GetCharacterMovement()->MaxWalkSpeed = 400;
+	me->GetCharacterMovement()->MaxWalkSpeed = 500;
 
 }
 
